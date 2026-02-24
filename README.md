@@ -5,6 +5,12 @@
 專案中提供多個版本的解法（`solution/v1solution.go` 到 `solution/v7solution.go`），
 可用來比較不同實作策略在效能上的差異。
 
+## 前置作業
+
+### 1) 建立資料集
+
+[請參照](https://github.com/gunnarmorling/1brc?tab=readme-ov-file#prerequisites)
+
 ## 如何使用
 
 ### 1) 環境需求
