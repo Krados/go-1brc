@@ -1,4 +1,4 @@
-## Go 實作 1BRC（One Billion Row Challenge）：效能從 v1 的 75 秒大幅提升到 v7 的 2.4 秒
+## Go 實作 1BRC（One Billion Row Challenge）：執行時間從 v1 的 75 秒大幅提升到 v7 的 2.4 秒
 
 `go-1brc` 是一個使用 Go 實作的 [1BRC](https://github.com/gunnarmorling/1brc)（One Billion Row Challenge）
 
