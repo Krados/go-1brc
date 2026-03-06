@@ -12,7 +12,7 @@ import (
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 var memprofile = flag.String("memprofile", "", "write memory profile to this file")
 var filename = flag.String("file", solution.FILE_NAME, "input file name")
-var sv = flag.Int("sv", 7, "solution version to run")
+var sv = flag.Int("sv", 8, "solution version to run")
 
 func main() {
 	flag.Parse()
@@ -47,6 +47,8 @@ func main() {
 		solution.V6Solution(*filename)
 	case 7:
 		solution.V7Solution(*filename)
+	case 8:
+		solution.V8Solution(*filename)
 	default:
 		log.Fatalf("unsupported solution version: %d", *sv)
 	}
