@@ -27,10 +27,13 @@ func V5Solution(filePath string) {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
+			// mapping stage: worker goroutines that process the chunks of data
+			// and send the results to the result channel
 			workerFuncV5(ctx, jobs, resultChan)
 		}()
 	}
 
+	// reducing stage: a single goroutine that aggregates the results from the worker goroutines
 	done := make(chan struct{})
 	go func() {
 		for {
@@ -56,6 +59,7 @@ func V5Solution(filePath string) {
 		}
 	}()
 
+	// splitting stage: send chunks of data to the mappers
 	bufSize := FILE_BUFFER_SIZE
 	buffer := make([]byte, bufSize)
 	offset := bufSize
