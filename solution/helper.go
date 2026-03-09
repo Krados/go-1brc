@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"hash/fnv"
 	"io"
 	"log"
 	"os"
@@ -227,6 +228,52 @@ func workerFuncV7(ctx context.Context, jobs chan []byte, resultChan chan map[str
 				} else {
 					memo[name] = &StationDataV2{
 						Name:  name,
+						Min:   temp,
+						Max:   temp,
+						Sum:   temp,
+						Count: 1,
+					}
+				}
+			}
+			// send the result back to the main goroutine
+			resultChan <- memo
+		case <-ctx.Done():
+			return
+		}
+	}
+}
+
+func workerFuncV8(ctx context.Context, jobs chan []byte, resultChan chan map[uint64]*StationDataV2) {
+	buf := make([]byte, SCANNER_BUFFER_SIZE)
+	fnv1aHasher := fnv.New64a()
+	for {
+		select {
+		case b := <-jobs:
+			memo := make(map[uint64]*StationDataV2)
+			scanner := bufio.NewScanner(bytes.NewReader(b))
+			scanner.Buffer(buf, SCANNER_BUFFER_SIZE)
+			for scanner.Scan() {
+				row := scanner.Bytes()
+				nameByte, tempBytes, ok := CustomByteSplit(row)
+				if !ok {
+					log.Fatalln("Error parsing row: expected ';' separator not found")
+				}
+				fnv1aHasher.Write(nameByte)
+				nameHash := fnv1aHasher.Sum64()
+				fnv1aHasher.Reset()
+				temp := ByteFloat64ToInt64V2(tempBytes)
+				if stationData, exists := memo[nameHash]; exists {
+					stationData.Sum += temp
+					stationData.Count++
+					if temp < stationData.Min {
+						stationData.Min = temp
+					}
+					if temp > stationData.Max {
+						stationData.Max = temp
+					}
+				} else {
+					memo[nameHash] = &StationDataV2{
+						Name:  string(nameByte),
 						Min:   temp,
 						Max:   temp,
 						Sum:   temp,
