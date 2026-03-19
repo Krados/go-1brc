@@ -5,6 +5,8 @@
 專案中提供多個版本的解法（`solution/v1solution.go` 到 `solution/v8solution.go`），
 可用來比較不同實作策略在效能上的差異。
 
+Blog 說明: [Medium](https://medium.com/@lll85216070/go-%E5%AF%A6%E4%BD%9C-1brc-one-billion-row-challenge-%E5%9F%B7%E8%A1%8C%E6%99%82%E9%96%93%E5%BE%9E-v1-%E7%9A%84-75-%E7%A7%92%E5%A4%A7%E5%B9%85%E6%8F%90%E5%8D%87%E5%88%B0-v8-%E7%9A%84-2-%E7%A7%92-62eec18e51b7)
+
 ## 配備介紹
 OS: Win11
 
